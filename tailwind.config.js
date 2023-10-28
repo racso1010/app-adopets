@@ -8,13 +8,12 @@ module.exports = {
             fontFamily: {
                 sans: ['Roboto', ...defaultTheme.fontFamily.sans],
             },
-        },
-        colors: {
-            transparent: 'transparent',
-            white: '#FFFFFF',
-            blue: '#2B78EC',
-            green: '#41B553',
-            gray: '#EAEAEA',
+            colors: {
+                transparent: 'transparent',
+                white: '#FFFFFF',
+                blue: '#2B78EC',
+                green: '#41B553',
+            },
         },
     },
     variants: {

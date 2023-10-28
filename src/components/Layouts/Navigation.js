@@ -18,7 +18,7 @@ const Navigation = ({ user }) => {
     const [open, setOpen] = useState(false)
 
     return (
-        <nav className="bg-transparent sticky z-50">
+        <nav className="bg-slate-200/[.5] sticky z-50">
             {/* Primary Navigation Menu */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
