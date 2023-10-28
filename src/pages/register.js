@@ -2,7 +2,6 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import Navigation from '@/components/Layouts/Navigation'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
@@ -40,7 +39,6 @@ const Register = () => {
 
     return (
         <GuestLayout>
-            {!user && <Navigation user={user} />}
             <AuthCard
                 logo={
                     <Link href="/">

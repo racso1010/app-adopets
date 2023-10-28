@@ -3,7 +3,6 @@ import AuthCard from '@/components/AuthCard'
 import AuthSessionStatus from '@/components/AuthSessionStatus'
 import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import Navigation from '@/components/Layouts/Navigation'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
@@ -48,7 +47,6 @@ const Login = () => {
 
     return (
         <GuestLayout>
-            {!user && <Navigation user={user} />}
             <AuthCard
                 logo={
                     <Link href="/">
