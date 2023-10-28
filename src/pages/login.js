@@ -3,6 +3,7 @@ import AuthCard from '@/components/AuthCard'
 import AuthSessionStatus from '@/components/AuthSessionStatus'
 import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
+import Navigation from '@/components/Layouts/Navigation'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
@@ -14,7 +15,7 @@ import { useRouter } from 'next/router'
 const Login = () => {
     const router = useRouter()
 
-    const { login } = useAuth({
+    const { login, user } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard',
     })
@@ -47,10 +48,11 @@ const Login = () => {
 
     return (
         <GuestLayout>
+            {!user && <Navigation user={user} />}
             <AuthCard
                 logo={
                     <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                        <ApplicationLogo className="w-40 h-20 fill-current text-gray-500" />
                     </Link>
                 }>
                 {/* Session Status */}
@@ -110,19 +112,19 @@ const Login = () => {
                             />
 
                             <span className="ml-2 text-sm text-gray-600">
-                                Remember me
+                                Recordar
                             </span>
                         </label>
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
+                    <div className="flex items-center justify-between mt-4">
                         <Link
                             href="/forgot-password"
                             className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Forgot your password?
+                            Olvidastes tu contraseña?
                         </Link>
 
-                        <Button className="ml-3">Login</Button>
+                        <Button className="ml-3 bg-blue">Acceder</Button>
                     </div>
                 </form>
             </AuthCard>

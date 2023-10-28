@@ -2,6 +2,7 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
+import Navigation from '@/components/Layouts/Navigation'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
@@ -10,12 +11,14 @@ import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 
 const Register = () => {
-    const { register } = useAuth({
+    const { register, user } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [name, setName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -25,7 +28,9 @@ const Register = () => {
         event.preventDefault()
 
         register({
-            name,
+            first_name: firstName,
+            last_name: lastName,
+            phone_number: phoneNumber,
             email,
             password,
             password_confirmation: passwordConfirmation,
@@ -35,28 +40,52 @@ const Register = () => {
 
     return (
         <GuestLayout>
+            {!user && <Navigation user={user} />}
             <AuthCard
                 logo={
                     <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                        <ApplicationLogo className="w-40 h-20 fill-current text-gray-500" />
                     </Link>
                 }>
                 <form onSubmit={submitForm}>
-                    {/* Name */}
+                    {/* First Name */}
                     <div>
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="firstName">Primer Nombre</Label>
 
                         <Input
-                            id="name"
+                            id="firstName"
                             type="text"
-                            value={name}
+                            value={firstName}
                             className="block mt-1 w-full"
-                            onChange={event => setName(event.target.value)}
+                            onChange={event => setFirstName(event.target.value)}
                             required
                             autoFocus
                         />
 
-                        <InputError messages={errors.name} className="mt-2" />
+                        <InputError
+                            messages={errors.first_name}
+                            className="mt-2"
+                        />
+                    </div>
+
+                    {/* Last Name */}
+                    <div className="mt-4">
+                        <Label htmlFor="lastName">Primer Apellido</Label>
+
+                        <Input
+                            id="lastName"
+                            type="text"
+                            value={lastName}
+                            className="block mt-1 w-full"
+                            onChange={event => setLastName(event.target.value)}
+                            required
+                            autoFocus
+                        />
+
+                        <InputError
+                            messages={errors.last_name}
+                            className="mt-2"
+                        />
                     </div>
 
                     {/* Email Address */}
@@ -75,9 +104,31 @@ const Register = () => {
                         <InputError messages={errors.email} className="mt-2" />
                     </div>
 
+                    {/* Phone number */}
+                    <div className="mt-4">
+                        <Label htmlFor="phoneNumber">Telefono</Label>
+
+                        <Input
+                            id="lastName"
+                            type="text"
+                            value={phoneNumber}
+                            className="block mt-1 w-full"
+                            onChange={event =>
+                                setPhoneNumber(event.target.value)
+                            }
+                            required
+                            autoFocus
+                        />
+
+                        <InputError
+                            messages={errors.phone_number}
+                            className="mt-2"
+                        />
+                    </div>
+
                     {/* Password */}
                     <div className="mt-4">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">Contraseña</Label>
 
                         <Input
                             id="password"
@@ -98,7 +149,7 @@ const Register = () => {
                     {/* Confirm Password */}
                     <div className="mt-4">
                         <Label htmlFor="passwordConfirmation">
-                            Confirm Password
+                            Confirmar Contraseña
                         </Label>
 
                         <Input
@@ -118,14 +169,14 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
+                    <div className="flex items-center justify-between mt-4">
                         <Link
                             href="/login"
                             className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Already registered?
+                            Ya posee una cuenta?
                         </Link>
 
-                        <Button className="ml-4">Register</Button>
+                        <Button className="ml-4 bg-blue">Registrar</Button>
                     </div>
                 </form>
             </AuthCard>

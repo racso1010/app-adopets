@@ -8,10 +8,10 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>Laravel</title>
+                <title>Adopets</title>
             </Head>
 
-            <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+            <div className="relative flex items-top justify-center min-h-screen dark:bg-gray-900 sm:items-center sm:pt-0 ap-bg-primary">
                 <div className="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     {user ? (
                         <Link

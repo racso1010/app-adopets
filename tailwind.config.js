@@ -6,8 +6,15 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Roboto', ...defaultTheme.fontFamily.sans],
             },
+        },
+        colors: {
+            transparent: 'transparent',
+            white: '#FFFFFF',
+            blue: '#2B78EC',
+            green: '#41B553',
+            gray: '#EAEAEA',
         },
     },
     variants: {
