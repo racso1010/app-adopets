@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { registerPet } from '@/hooks/pets'
 import AppLayout from '@/components/Layouts/AppLayout'
-import Head from 'next/head'
 
 const PetCreate = () => {
     const [state, setState] = useState({

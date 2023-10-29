@@ -18,7 +18,7 @@ export const registerPet = async ({ setErrors, ...props }) => {
     await csrf()
 
     setErrors([])
-    axios
+    return await axios
         .post('/api/pets', props)
         .then(e => {
             return e.data

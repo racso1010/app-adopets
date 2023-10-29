@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { registerPet } from '@/hooks/pets'
 import ModalDrawer from '@/components/ModalDrawer'
 
-const petsDrawer = ({ children, className, ...props }) => {
+const PetsDrawer = ({ children, className, ...props }) => {
     const [state, setState] = useState({
         name: '',
         age: '',
@@ -24,7 +24,9 @@ const petsDrawer = ({ children, className, ...props }) => {
             sterilized: [],
             images: [],
         },
+        success: false,
     })
+
     const [errors, setErrors] = useState({
         name: [],
         age: [],
@@ -86,15 +88,37 @@ const petsDrawer = ({ children, className, ...props }) => {
         return valid
     }
 
-    const submitForm = event => {
+    const submitForm = async event => {
         const validForm = validateForm()
         event.preventDefault()
 
         if (validForm) {
-            registerPet({
+            const register = await registerPet({
                 ...state,
                 setErrors,
             })
+
+            if (register) {
+                setState({
+                    name: '',
+                    age: '',
+                    race: '',
+                    overview: '',
+                    gender: '',
+                    sterilized: false,
+                    images: '',
+                    errors: {
+                        name: [],
+                        age: [],
+                        race: [],
+                        overview: [],
+                        gender: [],
+                        sterilized: [],
+                        images: [],
+                    },
+                    success: true,
+                })
+            }
         }
     }
 
@@ -104,64 +128,63 @@ const petsDrawer = ({ children, className, ...props }) => {
     }
 
     return (
-        <ModalDrawer title={drawerData.title} id={drawerData.id}>
+        <ModalDrawer
+            title={drawerData.title}
+            id={drawerData.id}
+            done={state.success}>
             <form onSubmit={submitForm}>
-                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-4">
-                    <div className="group relative ">
-                        <Label htmlFor="name">Nombre</Label>
-                        <Input
-                            id="name"
-                            name="name"
-                            type="text"
-                            value={state.name}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                        />
-                        <InputError messages={errors.name} className="mb-2" />
-                    </div>
-                    <div className="group relative ">
-                        <Label htmlFor="age">Edad</Label>
-                        <Input
-                            id="age"
-                            name="age"
-                            type="text"
-                            value={state.age}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                        />
-                        <InputError messages={errors.age} className="mb-2" />
-                    </div>
+                <div className="group relative mb-4">
+                    <Label htmlFor="name">Nombre</Label>
+                    <Input
+                        id="name"
+                        name="name"
+                        type="text"
+                        value={state.name}
+                        className="block mt-1 w-full"
+                        onChange={handleInputChange}
+                    />
+                    <InputError messages={errors.name} className="mb-2" />
                 </div>
-                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-4">
-                    <div className="group relative ">
-                        <Label htmlFor="race">Raza</Label>
-                        <Input
-                            id="race"
-                            name="race"
-                            type="text"
-                            value={state.race}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                        />
-                        <InputError messages={errors.race} className="mb-2" />
-                    </div>
-                    <div className="group relative ">
-                        <Label htmlFor="gender">Genero</Label>
-                        <select
-                            id="gender"
-                            name="gender"
-                            className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            value={state.gender}
-                            onChange={handleInputChange}>
-                            <option value=""></option>
-                            <option value="M">M</option>
-                            <option value="F">F</option>
-                        </select>
-                        <InputError messages={errors.gender} className="mb-2" />
-                    </div>
+                <div className="group relative mb-4">
+                    <Label htmlFor="age">Edad</Label>
+                    <Input
+                        id="age"
+                        name="age"
+                        type="text"
+                        value={state.age}
+                        className="block mt-1 w-full"
+                        onChange={handleInputChange}
+                    />
+                    <InputError messages={errors.age} className="mb-2" />
+                </div>
+                <div className="group relative mb-4">
+                    <Label htmlFor="race">Raza</Label>
+                    <Input
+                        id="race"
+                        name="race"
+                        type="text"
+                        value={state.race}
+                        className="block mt-1 w-full"
+                        onChange={handleInputChange}
+                    />
+                    <InputError messages={errors.race} className="mb-2" />
+                </div>
+                <div className="group relative mb-4">
+                    <Label htmlFor="gender">Genero</Label>
+                    <select
+                        id="gender"
+                        name="gender"
+                        className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        value={state.gender}
+                        onChange={handleInputChange}>
+                        <option value=""></option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                    </select>
+                    <InputError messages={errors.gender} className="mb-2" />
                 </div>
                 <div className="grid grid-cols-1 gap-x-6 gap-y-3">
-                    <div className="group relative ">
+                    <div className="group relative mb-4">
                         <Label htmlFor="name">Descripcion</Label>
                         <Input
                             id="overview"
@@ -177,7 +200,7 @@ const petsDrawer = ({ children, className, ...props }) => {
                         />
                     </div>
 
-                    <div className="group relative ">
+                    <div className="group relative mb-4">
                         <Label htmlFor="sterilized">Esterilizado</Label>
                         <Input
                             id="sterilized"
@@ -193,7 +216,7 @@ const petsDrawer = ({ children, className, ...props }) => {
                         />
                     </div>
 
-                    <div className="group relative ">
+                    <div className="group relative mb-4">
                         <Label htmlFor="name">Foto</Label>
                         <Input
                             id="images"
@@ -214,4 +237,4 @@ const petsDrawer = ({ children, className, ...props }) => {
     )
 }
 
-export default petsDrawer
+export default PetsDrawer
