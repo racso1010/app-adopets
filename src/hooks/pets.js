@@ -12,16 +12,15 @@ export const getPets = async (id = null) => {
             return []
         })
 }
-export const registerPet = async ({ setErrors, ...props }) => {
+export const registerPet = async ({ setErrors, payload }) => {
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
-    await csrf()
+    await csrf().then(e => console)
 
     setErrors([])
+
     return await axios
-        .post('/api/pets', props, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        })
+        .post('/api/pets', payload)
         .then(e => {
             return e.data
         })
