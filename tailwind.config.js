@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-    content: ['./src/**/*.js'],
+    content: ['./src/**/*.js', './node_modules/flowbite-react/**/*.js'],
     darkMode: 'media',
     theme: {
         extend: {
@@ -21,5 +21,5 @@ module.exports = {
             opacity: ['disabled'],
         },
     },
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
 }

@@ -5,6 +5,7 @@ import Navigation from '@/components/Layouts/Navigation'
 import ApplicationLogo from '@/components/ApplicationLogo'
 import { getPets } from '@/hooks/pets'
 import { useEffect, useState } from 'react'
+import PetCard from '@/components/PetCard'
 
 export default function Home() {
     const { user } = useAuth({ middleware: 'guest' })
@@ -175,44 +176,13 @@ export default function Home() {
                                 Los Mas Queridos
                             </h1>
                         </div>
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap mx-auto">
                             {pets.map((pet, index) => {
                                 return (
-                                    <div className="p-4 md:w-1/3" key={index}>
-                                        <div className="flex rounded-lg h-full bg-blue bg-opacity-20 p-8 flex-col">
-                                            <div className="flex items-center mb-3">
-                                                <div className="max-h-[300px] overflow-hidden">
-                                                    <img
-                                                        alt="feature"
-                                                        src={pet.image}
-                                                        className="mx-auto"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="flex-grow">
-                                                <p className="leading-relaxed text-blue font-bold mb-4">
-                                                    {pet.name}
-                                                </p>
-                                                <p className="leading-relaxed text-gray-400">
-                                                    {pet.overview}
-                                                </p>
-                                                <Link
-                                                    className="mt-3 text-green inline-flex items-center"
-                                                    href={`/pets/${pet.id}`}>
-                                                    Detalles
-                                                    <svg
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        className="w-4 h-4 ml-2"
-                                                        viewBox="0 0 24 24">
-                                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                                    </svg>
-                                                </Link>
-                                            </div>
-                                        </div>
+                                    <div
+                                        className="p-4 md:w-1/3 mx-auto"
+                                        key={index}>
+                                        <PetCard pet={pet} />
                                     </div>
                                 )
                             })}

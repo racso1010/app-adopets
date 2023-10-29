@@ -3,6 +3,7 @@ import PetCard from '@/components/PetCard'
 import { getPets } from '@/hooks/pets'
 import { useEffect, useState } from 'react'
 import GuestLayout from '@/components/Layouts/GuestLayout'
+import PetsDrawer from './PetsDrawer'
 
 const Pets = () => {
     const [pets, setPets] = useState([])
@@ -31,6 +32,7 @@ const Pets = () => {
             <div>
                 <div className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
+                        <PetsDrawer></PetsDrawer>
                         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                             Las mejores mascotas para adoptar
                         </h2>
