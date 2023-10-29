@@ -18,57 +18,98 @@ const Navigation = ({ user }) => {
     const [open, setOpen] = useState(false)
 
     return (
-        <nav className="bg-white border-b border-gray-100">
+        <nav className="bg-slate-200/[.5] sticky z-50">
             {/* Primary Navigation Menu */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
-                            <Link href="/dashboard">
+                            <Link href="/">
                                 <ApplicationLogo className="block h-10 w-auto fill-current text-gray-600" />
                             </Link>
                         </div>
 
                         {/* Navigation Links */}
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink
-                                href="/dashboard"
-                                active={router.pathname === '/dashboard'}>
-                                Dashboard
-                            </NavLink>
-                        </div>
+                        {user && (
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink
+                                    href="/pets"
+                                    active={router.pathname === '/pets'}>
+                                    Mascotas
+                                </NavLink>
+                                <NavLink
+                                    href="/contact"
+                                    active={router.pathname === '/contact'}>
+                                    Contacto
+                                </NavLink>
+                                {user?.role == 'admin' ? (
+                                    <NavLink
+                                        href="/admin"
+                                        active={router.pathname === '/admin'}>
+                                        Admin
+                                    </NavLink>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* Settings Dropdown */}
-                    <div className="hidden sm:flex sm:items-center sm:ml-6">
-                        <Dropdown
-                            align="right"
-                            width="48"
-                            trigger={
-                                <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
-                                    <div>{user?.name}</div>
+                    {user && (
+                        <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <div className="ml-3">
+                                <div className="font-medium text-base text-gray-800">
+                                    {user?.first_name} {user?.last_name}
+                                </div>
+                            </div>
+                            <Dropdown
+                                align="right"
+                                width="48"
+                                trigger={
+                                    <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
+                                        <div>{user?.name}</div>
 
-                                    <div className="ml-1">
-                                        <svg
-                                            className="fill-current h-4 w-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </button>
-                            }>
-                            {/* Authentication */}
-                            <DropdownButton onClick={logout}>
-                                Logout
-                            </DropdownButton>
-                        </Dropdown>
-                    </div>
+                                        <div className="ml-1">
+                                            <svg
+                                                className="fill-current h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                }>
+                                {/* Authentication */}
+                                <DropdownButton onClick={logout}>
+                                    Logout
+                                </DropdownButton>
+                            </Dropdown>
+                        </div>
+                    )}
+                    {/* Register and Home Page if not logged in */}
+                    {!user && (
+                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink href="/" active={router.pathname === '/'}>
+                                Inicio
+                            </NavLink>
+                            <NavLink
+                                href="/login"
+                                active={router.pathname === '/login'}>
+                                Acceder
+                            </NavLink>
+                            <NavLink
+                                href="/register"
+                                active={router.pathname === '/register'}>
+                                Registro
+                            </NavLink>
+                        </div>
+                    )}
 
                     {/* Hamburger */}
                     <div className="-mr-2 flex items-center sm:hidden">
@@ -104,54 +145,82 @@ const Navigation = ({ user }) => {
             </div>
 
             {/* Responsive Navigation Menu */}
-            {open && (
-                <div className="block sm:hidden">
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            href="/dashboard"
-                            active={router.pathname === '/dashboard'}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    {/* Responsive Settings Options */}
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="flex items-center px-4">
-                            <div className="flex-shrink-0">
-                                <svg
-                                    className="h-10 w-10 fill-current text-gray-400"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                    />
-                                </svg>
-                            </div>
-
-                            <div className="ml-3">
-                                <div className="font-medium text-base text-gray-800">
-                                    {user?.name}
-                                </div>
-                                <div className="font-medium text-sm text-gray-500">
-                                    {user?.email}
-                                </div>
-                            </div>
+            {open &&
+                (user ? (
+                    <div className="block sm:hidden">
+                        <div className="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink
+                                href="/"
+                                active={router.pathname === '/'}>
+                                Inicio
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href="/pets"
+                                active={router.pathname === '/pets'}>
+                                Mascotas
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href="/contact"
+                                active={router.pathname === '/contact'}>
+                                Contacto
+                            </ResponsiveNavLink>
                         </div>
 
-                        <div className="mt-3 space-y-1">
-                            {/* Authentication */}
-                            <ResponsiveNavButton onClick={logout}>
-                                Logout
-                            </ResponsiveNavButton>
+                        {/* Responsive Settings Options */}
+                        <div className="pt-4 pb-1 border-t border-gray-200">
+                            <div className="flex items-center px-4">
+                                <div className="flex-shrink-0">
+                                    <svg
+                                        className="h-10 w-10 fill-current text-gray-400"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="blue">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                        />
+                                    </svg>
+                                </div>
+
+                                <div className="ml-3">
+                                    <div className="font-medium text-base text-gray-800">
+                                        {user?.first_name} {user?.last_name}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-3 space-y-1">
+                                {/* Authentication */}
+                                <ResponsiveNavButton onClick={logout}>
+                                    Logout
+                                </ResponsiveNavButton>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                ) : (
+                    <div className="block sm:hidden">
+                        <div className="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink
+                                href="/"
+                                active={router.pathname === '/'}>
+                                Inicio
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href="/login"
+                                active={router.pathname === '/login'}>
+                                Acceder
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href="/register"
+                                active={router.pathname === '/register'}>
+                                Registro
+                            </ResponsiveNavLink>
+                        </div>
+                    </div>
+                ))}
         </nav>
     )
 }

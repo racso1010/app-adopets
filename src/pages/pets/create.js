@@ -9,18 +9,40 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 
-const Register = () => {
+const PetCreate = () => {
     const { register, user } = useAuth({
         middleware: 'guest',
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordConfirmation, setPasswordConfirmation] = useState('')
+    const [state, setState] = useState({
+        name: '',
+        age: '',
+        race: '',
+        overview: '',
+        gender: '',
+        sterilized: false,
+        images: '',
+        errors: {
+            name: '',
+            age: '',
+            race: '',
+            overview: '',
+            gender: '',
+            sterilized: '',
+            images: '',
+        },
+    })
+
+    const handleInputChange = event => {
+        const name = event.target.name
+        const value = event.target.value
+        setState({
+            ...state,
+            [name]: value,
+        })
+    }
+    
     const [errors, setErrors] = useState([])
 
     const submitForm = event => {
@@ -46,123 +68,88 @@ const Register = () => {
                     </Link>
                 }>
                 <form onSubmit={submitForm}>
-                    {/* First Name */}
                     <div>
-                        <Label htmlFor="firstName">Primer Nombre</Label>
-
+                        <Label htmlFor="name">Nombre</Label>
                         <Input
-                            id="firstName"
+                            id="name"
+                            name="name"
                             type="text"
-                            value={firstName}
+                            value={state.name}
                             className="block mt-1 w-full"
-                            onChange={event => setFirstName(event.target.value)}
+                            onChange={handleInputChange}
                             required
                             autoFocus
                         />
-
                         <InputError
-                            messages={errors.first_name}
+                            messages={state.errors.name}
                             className="mt-2"
                         />
                     </div>
-
-                    {/* Last Name */}
-                    <div className="mt-4">
-                        <Label htmlFor="lastName">Primer Apellido</Label>
-
+                    <div>
+                        <Label htmlFor="name">Edad</Label>
                         <Input
-                            id="lastName"
+                            id="age"
+                            name="age"
                             type="text"
-                            value={lastName}
+                            value={state.age}
                             className="block mt-1 w-full"
-                            onChange={event => setLastName(event.target.value)}
+                            onChange={handleInputChange}
                             required
                             autoFocus
                         />
-
                         <InputError
-                            messages={errors.last_name}
+                            messages={state.errors.age}
                             className="mt-2"
                         />
                     </div>
-
-                    {/* Email Address */}
-                    <div className="mt-4">
-                        <Label htmlFor="email">Email</Label>
-
+                    <div>
+                        <Label htmlFor="name">Raza</Label>
                         <Input
-                            id="email"
-                            type="email"
-                            value={email}
-                            className="block mt-1 w-full"
-                            onChange={event => setEmail(event.target.value)}
-                            required
-                        />
-
-                        <InputError messages={errors.email} className="mt-2" />
-                    </div>
-
-                    {/* Phone number */}
-                    <div className="mt-4">
-                        <Label htmlFor="phoneNumber">Telefono</Label>
-
-                        <Input
-                            id="lastName"
+                            id="race"
+                            name="race"
                             type="text"
-                            value={phoneNumber}
+                            value={state.race}
                             className="block mt-1 w-full"
-                            onChange={event =>
-                                setPhoneNumber(event.target.value)
-                            }
+                            onChange={handleInputChange}
                             required
                             autoFocus
                         />
-
                         <InputError
-                            messages={errors.phone_number}
+                            messages={state.errors.race}
                             className="mt-2"
                         />
                     </div>
-
-                    {/* Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="password">Contraseña</Label>
-
+                    <div>
+                        <Label htmlFor="name">Descripcion</Label>
                         <Input
-                            id="password"
-                            type="password"
-                            value={password}
+                            id="overview"
+                            name="overview"
+                            type="text"
+                            value={state.overview}
                             className="block mt-1 w-full"
-                            onChange={event => setPassword(event.target.value)}
+                            onChange={handleInputChange}
                             required
-                            autoComplete="new-password"
+                            autoFocus
                         />
-
                         <InputError
-                            messages={errors.password}
+                            messages={state.errors.overview}
                             className="mt-2"
                         />
                     </div>
-
-                    {/* Confirm Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="passwordConfirmation">
-                            Confirmar Contraseña
-                        </Label>
-
+                    <div>
+                        <Label htmlFor="name">Genero</Label>
                         <Input
-                            id="passwordConfirmation"
-                            type="password"
-                            value={passwordConfirmation}
+                            id="gender"
+                            name="gender"
+                            type="text"
+                            value={state.gender}
                             className="block mt-1 w-full"
-                            onChange={event =>
-                                setPasswordConfirmation(event.target.value)
-                            }
+                            onChange={handleInputChange}
                             required
+                            autoFocus
                         />
-
                         <InputError
-                            messages={errors.password_confirmation}
+                            messages={state.errors.gender}
                             className="mt-2"
                         />
                     </div>
@@ -182,4 +169,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default PetCreate

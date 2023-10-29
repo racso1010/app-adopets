@@ -31,13 +31,12 @@ const ForgotPassword = () => {
             <AuthCard
                 logo={
                     <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                        <ApplicationLogo className="w-40 h-20 fill-current text-gray-500" />
                     </Link>
                 }>
                 <div className="mb-4 text-sm text-gray-600">
-                    Forgot your password? No problem. Just let us know your
-                    email address and we will email you a password reset link
-                    that will allow you to choose a new one.
+                    Olvidaste tu contraseña? No te preocupes, copia tu correo y
+                    recibiras un correo para restaurarla.
                 </div>
 
                 {/* Session Status */}
@@ -61,8 +60,10 @@ const ForgotPassword = () => {
                         <InputError messages={errors.email} className="mt-2" />
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
-                        <Button>Email Password Reset Link</Button>
+                    <div className="flex items-center justify-center mt-4">
+                        <Button className="bg-blue">
+                            Restaurar Contraseña
+                        </Button>
                     </div>
                 </form>
             </AuthCard>
