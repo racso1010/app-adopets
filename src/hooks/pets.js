@@ -7,6 +7,6 @@ export const getPets = async () => {
             return e.data
         })
         .catch(error => {
-            if (error.response.status !== 422) throw error
+            return []
         })
 }

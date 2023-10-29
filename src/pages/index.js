@@ -17,7 +17,8 @@ export default function Home() {
         async function fetchData() {
             const allPets = await getPets()
 
-            setPets(allPets)
+            const filterPets = allPets.filter((pet, index) => index <= 2)
+            setPets(filterPets)
         }
 
         fetchData()
