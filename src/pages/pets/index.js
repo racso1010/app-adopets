@@ -1,4 +1,3 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
 import PetCard from '@/components/PetCard'
 import { getPets } from '@/hooks/pets'
