@@ -59,6 +59,11 @@ const Navigation = ({ user }) => {
                     {/* Settings Dropdown */}
                     {user && (
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <div className="ml-3">
+                                <div className="font-medium text-base text-gray-800">
+                                    {user?.first_name} {user?.last_name}
+                                </div>
+                            </div>
                             <Dropdown
                                 align="right"
                                 width="48"
@@ -170,7 +175,7 @@ const Navigation = ({ user }) => {
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
-                                        stroke="currentColor">
+                                        stroke="blue">
                                         <path
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
@@ -182,10 +187,7 @@ const Navigation = ({ user }) => {
 
                                 <div className="ml-3">
                                     <div className="font-medium text-base text-gray-800">
-                                        {user?.name}
-                                    </div>
-                                    <div className="font-medium text-sm text-gray-500">
-                                        {user?.email}
+                                        {user?.first_name} {user?.last_name}
                                     </div>
                                 </div>
                             </div>

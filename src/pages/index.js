@@ -3,11 +3,25 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import Navigation from '@/components/Layouts/Navigation'
 import ApplicationLogo from '@/components/ApplicationLogo'
+import { getPets } from '@/hooks/pets'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
     const { user } = useAuth({ middleware: 'guest' })
 
     const currentYear = new Date().getFullYear()
+
+    const [pets, setPets] = useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            const allPets = await getPets()
+
+            setPets(allPets)
+        }
+
+        fetchData()
+    }, [])
 
     return (
         <>
@@ -144,136 +158,67 @@ export default function Home() {
             </section>
 
             {/* Second Section */}
-            <section className="text-gray-300 bg-slate-50 body-font">
-                <div className="container px-5 py-24 mx-auto flex flex-wrap">
-                    <div className="flex flex-col text-center w-full mb-10">
-                        <img
-                            alt="Footprint"
-                            src="/images/footprint.svg"
-                            className="mx-auto w-10 h-10"
-                        />
-                        <p className="text-xs text-gray-900 tracking-widest font-medium title-font my-2">
-                            Una Familia Consentida
-                        </p>
-                        <h1 className="sm:text-3xl text-2xl font-medium title-font text-green">
-                            Los Mas Queridos
-                        </h1>
-                    </div>
-                    <div className="flex flex-wrap">
-                        <div className="p-4 md:w-1/3">
-                            <div className="flex rounded-lg h-full bg-blue bg-opacity-20 p-8 flex-col">
-                                <div className="flex items-center mb-3">
-                                    <div className="w-30 h-30">
-                                        <img
-                                            alt="feature"
-                                            src="/images/kitty-sleep.jpeg"
-                                            className="mx-auto"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="leading-relaxed text-blue font-bold mb-4">
-                                        Oreo
-                                    </p>
-                                    <p className="leading-relaxed text-gray-400">
-                                        Description del michi cuando se traiga
-                                        de la base de datos con un fetch
-                                    </p>
-                                    <Link
-                                        className="mt-3 text-green inline-flex items-center"
-                                        href="/">
-                                        Detalles
-                                        <svg
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            className="w-4 h-4 ml-2"
-                                            viewBox="0 0 24 24">
-                                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
+            {pets.length > 0 && (
+                <section className="text-gray-300 bg-slate-50 body-font">
+                    <div className="container px-5 py-24 mx-auto flex flex-wrap">
+                        <div className="flex flex-col text-center w-full mb-10">
+                            <img
+                                alt="Footprint"
+                                src="/images/footprint.svg"
+                                className="mx-auto w-10 h-10"
+                            />
+                            <p className="text-xs text-gray-900 tracking-widest font-medium title-font my-2">
+                                Una Familia Consentida
+                            </p>
+                            <h1 className="sm:text-3xl text-2xl font-medium title-font text-green">
+                                Los Mas Queridos
+                            </h1>
                         </div>
-                        <div className="p-4 md:w-1/3">
-                            <div className="flex rounded-lg h-full bg-blue bg-opacity-20 p-8 flex-col">
-                                <div className="flex items-center mb-3">
-                                    <div className="w-30 h-30">
-                                        <img
-                                            alt="feature"
-                                            src="/images/kitty-sleep.jpeg"
-                                            className="mx-auto"
-                                        />
+                        <div className="flex flex-wrap">
+                            {pets.map((pet, index) => {
+                                return (
+                                    <div className="p-4 md:w-1/3" key={index}>
+                                        <div className="flex rounded-lg h-full bg-blue bg-opacity-20 p-8 flex-col">
+                                            <div className="flex items-center mb-3">
+                                                <div className="max-h-[300px] overflow-hidden">
+                                                    <img
+                                                        alt="feature"
+                                                        src={pet.image}
+                                                        className="mx-auto"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex-grow">
+                                                <p className="leading-relaxed text-blue font-bold mb-4">
+                                                    {pet.name}
+                                                </p>
+                                                <p className="leading-relaxed text-gray-400">
+                                                    {pet.overview}
+                                                </p>
+                                                <Link
+                                                    className="mt-3 text-green inline-flex items-center"
+                                                    href={`/pets/${pet.id}`}>
+                                                    Detalles
+                                                    <svg
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        className="w-4 h-4 ml-2"
+                                                        viewBox="0 0 24 24">
+                                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                                    </svg>
+                                                </Link>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="leading-relaxed text-blue font-bold mb-4">
-                                        Simba
-                                    </p>
-                                    <p className="leading-relaxed text-gray-400">
-                                        Description del michi cuando se traiga
-                                        de la base de datos con un fetch
-                                    </p>
-                                    <Link
-                                        className="mt-3 text-green inline-flex items-center"
-                                        href="/">
-                                        Detalles
-                                        <svg
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            className="w-4 h-4 ml-2"
-                                            viewBox="0 0 24 24">
-                                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="p-4 md:w-1/3">
-                            <div className="flex rounded-lg h-full bg-blue bg-opacity-20 p-8 flex-col">
-                                <div className="flex items-center mb-3">
-                                    <div className="w-30 h-30">
-                                        <img
-                                            alt="feature"
-                                            src="/images/kitty-sleep.jpeg"
-                                            className="mx-auto"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="leading-relaxed text-blue font-bold mb-4">
-                                        Tommy
-                                    </p>
-                                    <p className="leading-relaxed text-gray-400">
-                                        Description del michi cuando se traiga
-                                        de la base de datos con un fetch
-                                    </p>
-                                    <Link
-                                        className="mt-3 text-green inline-flex items-center"
-                                        href="/">
-                                        Detalles
-                                        <svg
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            className="w-4 h-4 ml-2"
-                                            viewBox="0 0 24 24">
-                                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                                        </svg>
-                                    </Link>
-                                </div>
-                            </div>
+                                )
+                            })}
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Third Section */}
             <section className="text-gray-400 bg-white body-font">
