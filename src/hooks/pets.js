@@ -19,7 +19,9 @@ export const registerPet = async ({ setErrors, ...props }) => {
 
     setErrors([])
     return await axios
-        .post('/api/pets', props)
+        .post('/api/pets', props, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
         .then(e => {
             return e.data
         })
