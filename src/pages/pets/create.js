@@ -8,6 +8,7 @@ import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
+import { registerPet } from '@/hooks/pets'
 
 const PetCreate = () => {
     const { register, user } = useAuth({
@@ -24,14 +25,23 @@ const PetCreate = () => {
         sterilized: false,
         images: '',
         errors: {
-            name: '',
-            age: '',
-            race: '',
-            overview: '',
-            gender: '',
-            sterilized: '',
-            images: '',
+            name: [],
+            age: [],
+            race: [],
+            overview: [],
+            gender: [],
+            sterilized: [],
+            images: [],
         },
+    })
+    const [errors, setErrors] = useState({
+        name: [],
+        age: [],
+        race: [],
+        overview: [],
+        gender: [],
+        sterilized: [],
+        images: [],
     })
 
     const handleInputChange = event => {
@@ -42,21 +52,59 @@ const PetCreate = () => {
             [name]: value,
         })
     }
-    
-    const [errors, setErrors] = useState([])
+
+    const validateForm = () => {
+        let valid = true
+        const lErrors = {
+            name: [],
+            age: [],
+            race: [],
+            overview: [],
+            gender: [],
+            sterilized: [],
+            images: [],
+        }
+
+        valid =
+            state.name.length > 0 &&
+            state.age.length > 0 &&
+            state.images.length > 0 &&
+            state.race.length > 0 &&
+            state.gender.length > 0 &&
+            state.overview.length > 0
+
+        if (state.name.length === 0) {
+            lErrors.name.push('Campo requerido')
+        }
+        if (state.age.length === 0) {
+            lErrors.age.push('Campo requerido')
+        }
+        if (state.race.length === 0) {
+            lErrors.race.push('Campo requerido')
+        }
+        if (state.gender.length === 0) {
+            lErrors.gender.push('Campo requerido')
+        }
+        if (state.overview.length === 0) {
+            lErrors.overview.push('Campo requerido')
+        }
+        if (state.images.length === 0) {
+            lErrors.images.push('Campo requerido')
+        }
+        setErrors(lErrors)
+        return valid
+    }
 
     const submitForm = event => {
+        const validForm = validateForm()
         event.preventDefault()
 
-        register({
-            first_name: firstName,
-            last_name: lastName,
-            phone_number: phoneNumber,
-            email,
-            password,
-            password_confirmation: passwordConfirmation,
-            setErrors,
-        })
+        if (validForm) {
+            registerPet({
+                ...state,
+                setErrors,
+            })
+        }
     }
 
     return (
@@ -68,99 +116,122 @@ const PetCreate = () => {
                     </Link>
                 }>
                 <form onSubmit={submitForm}>
-                    <div>
-                        <Label htmlFor="name">Nombre</Label>
-                        <Input
-                            id="name"
-                            name="name"
-                            type="text"
-                            value={state.name}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                            required
-                            autoFocus
-                        />
-                        <InputError
-                            messages={state.errors.name}
-                            className="mt-2"
-                        />
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-4">
+                        <div className="group relative ">
+                            <Label htmlFor="name">Nombre</Label>
+                            <Input
+                                id="name"
+                                name="name"
+                                type="text"
+                                value={state.name}
+                                className="block mt-1 w-full"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.name}
+                                className="mb-2"
+                            />
+                        </div>
+                        <div className="group relative ">
+                            <Label htmlFor="age">Edad</Label>
+                            <Input
+                                id="age"
+                                name="age"
+                                type="text"
+                                value={state.age}
+                                className="block mt-1 w-full"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.age}
+                                className="mb-2"
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="name">Edad</Label>
-                        <Input
-                            id="age"
-                            name="age"
-                            type="text"
-                            value={state.age}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                            required
-                            autoFocus
-                        />
-                        <InputError
-                            messages={state.errors.age}
-                            className="mt-2"
-                        />
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-4">
+                        <div className="group relative ">
+                            <Label htmlFor="race">Raza</Label>
+                            <Input
+                                id="race"
+                                name="race"
+                                type="text"
+                                value={state.race}
+                                className="block mt-1 w-full"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.race}
+                                className="mb-2"
+                            />
+                        </div>
+                        <div className="group relative ">
+                            <Label htmlFor="gender">Genero</Label>
+                            <select
+                                id="gender"
+                                name="gender"
+                                className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                value={state.gender}
+                                onChange={handleInputChange}>
+                                <option value=""></option>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select>
+                            <InputError
+                                messages={errors.gender}
+                                className="mb-2"
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="name">Raza</Label>
-                        <Input
-                            id="race"
-                            name="race"
-                            type="text"
-                            value={state.race}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                            required
-                            autoFocus
-                        />
-                        <InputError
-                            messages={state.errors.race}
-                            className="mt-2"
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="name">Descripcion</Label>
-                        <Input
-                            id="overview"
-                            name="overview"
-                            type="text"
-                            value={state.overview}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                            required
-                            autoFocus
-                        />
-                        <InputError
-                            messages={state.errors.overview}
-                            className="mt-2"
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="name">Genero</Label>
-                        <Input
-                            id="gender"
-                            name="gender"
-                            type="text"
-                            value={state.gender}
-                            className="block mt-1 w-full"
-                            onChange={handleInputChange}
-                            required
-                            autoFocus
-                        />
-                        <InputError
-                            messages={state.errors.gender}
-                            className="mt-2"
-                        />
-                    </div>
+                    <div className="grid grid-cols-1 gap-x-6 gap-y-3">
+                        <div className="group relative ">
+                            <Label htmlFor="name">Descripcion</Label>
+                            <Input
+                                id="overview"
+                                name="overview"
+                                type="text"
+                                value={state.overview}
+                                className="block mt-1 w-full"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.overview}
+                                className="mb-2"
+                            />
+                        </div>
 
+                        <div className="group relative ">
+                            <Label htmlFor="sterilized">Esterilizado</Label>
+                            <Input
+                                id="sterilized"
+                                name="sterilized"
+                                type="checkbox"
+                                value={state.sterilized}
+                                className="block mt-1"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.sterilized}
+                                className="mb-2"
+                            />
+                        </div>
+
+                        <div className="group relative ">
+                            <Label htmlFor="name">Foto</Label>
+                            <Input
+                                id="images"
+                                name="images"
+                                type="file"
+                                value={state.images}
+                                className="block mt-1 w-full"
+                                onChange={handleInputChange}
+                            />
+                            <InputError
+                                messages={errors.images}
+                                className="mb-2"
+                            />
+                        </div>
+                    </div>
                     <div className="flex items-center justify-between mt-4">
-                        <Link
-                            href="/login"
-                            className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Ya posee una cuenta?
-                        </Link>
-
                         <Button className="ml-4 bg-blue">Registrar</Button>
                     </div>
                 </form>

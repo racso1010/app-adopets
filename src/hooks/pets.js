@@ -12,3 +12,17 @@ export const getPets = async (id = null) => {
             return []
         })
 }
+
+export const registerPet = async ({ setErrors, ...props }) => {
+    await csrf().then(e => console.log(e))
+    setErrors([])
+    axios
+        .post('/register', props)
+        .then(() => mutate())
+        .catch(error => {
+            if (error.response.status !== 422) throw error
+            setErrors(error.response.data.errors)
+        })
+}
+
+
