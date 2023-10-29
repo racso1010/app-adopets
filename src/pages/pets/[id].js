@@ -11,27 +11,18 @@ export default function Pet() {
     const router = useRouter()
     const [pet, setPet] = useState([])
 
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const singlePet = await getPets(router.query.id)
+    useEffect(() => {
+        async function fetchData() {
+            const singlePet = await getPets(router.query.id)
 
-    //         setPet(singlePet)
-    //     }
+            setPet(singlePet)
+        }
 
-    //     fetchData()
-    // }, [router.query.id])
+        fetchData()
+    }, [router.query.id])
 
-    // if (!pet?.name) {
-    //     return ''
-    // }
-
-    const testpet = {
-        name: 'name',
-        age: '2yo',
-        race: 'lovely dog',
-        sterilized: true,
-        overview: 'overview',
-        image: 'null',
+    if (!pet?.name) {
+        return ''
     }
 
     return (
@@ -57,11 +48,7 @@ export default function Pet() {
                             {pet.name}
                         </h1>
 
-                        <PetSection petData={testpet} />
-
-                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 hidden">
-                            <pre>{JSON.stringify(pet, null, 2)}</pre>
-                        </div>
+                        <PetSection petData={pet} />
                     </div>
                 </div>
             </div>
