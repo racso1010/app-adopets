@@ -23,7 +23,7 @@ const PetCreate = () => {
         overview: '',
         gender: '',
         sterilized: false,
-        images: '',
+        image: '',
         errors: {
             name: [],
             age: [],
@@ -31,7 +31,7 @@ const PetCreate = () => {
             overview: [],
             gender: [],
             sterilized: [],
-            images: [],
+            image: [],
         },
     })
     const [errors, setErrors] = useState({
@@ -41,7 +41,7 @@ const PetCreate = () => {
         overview: [],
         gender: [],
         sterilized: [],
-        images: [],
+        image: [],
     })
 
     const handleInputChange = event => {
@@ -62,13 +62,13 @@ const PetCreate = () => {
             overview: [],
             gender: [],
             sterilized: [],
-            images: [],
+            image: [],
         }
 
         valid =
             state.name.length > 0 &&
             state.age.length > 0 &&
-            state.images.length > 0 &&
+            state.image.length > 0 &&
             state.race.length > 0 &&
             state.gender.length > 0 &&
             state.overview.length > 0
@@ -88,8 +88,8 @@ const PetCreate = () => {
         if (state.overview.length === 0) {
             lErrors.overview.push('Campo requerido')
         }
-        if (state.images.length === 0) {
-            lErrors.images.push('Campo requerido')
+        if (state.image.length === 0) {
+            lErrors.image.push('Campo requerido')
         }
         setErrors(lErrors)
         return valid
@@ -218,15 +218,15 @@ const PetCreate = () => {
                         <div className="group relative ">
                             <Label htmlFor="name">Foto</Label>
                             <Input
-                                id="images"
-                                name="images"
+                                id="image"
+                                name="image"
                                 type="file"
-                                value={state.images}
+                                value={state.image}
                                 className="block mt-1 w-full"
                                 onChange={handleInputChange}
                             />
                             <InputError
-                                messages={errors.images}
+                                messages={errors.image}
                                 className="mb-2"
                             />
                         </div>

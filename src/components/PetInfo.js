@@ -1,3 +1,5 @@
+import Button from '@/components/Button'
+
 function PetInfo({ name, race, age, gender, overview, sterilized }) {
     return (
         <div className=" font-primary">
@@ -8,8 +10,12 @@ function PetInfo({ name, race, age, gender, overview, sterilized }) {
             <p className="font-medium text-lg">{race}</p>
             <p className="font-medium text-lg">{gender}</p>
             <p className="font-medium text-lg">{overview}</p>
-            <p className="font-medium text-lg">{sterilized && <>Estoy esterilizad@</>}</p>
+            <p className="font-medium text-lg">
+                {sterilized && <>Estoy esterilizad@</>}
+            </p>
             <div className="text-xl text-palette-primary font-medium py-4 px-1"></div>
+
+            <Button className="bg-blue mt-4">Adoptame</Button>
         </div>
     )
 }

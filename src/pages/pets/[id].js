@@ -25,13 +25,13 @@ export default function Pet() {
     //     return ''
     // }
 
-    const testpet={
+    const testpet = {
         name: 'name',
         age: '2yo',
         race: 'lovely dog',
         sterilized: true,
-        overview: "overview",
-        image: 'null'
+        overview: 'overview',
+        image: 'null',
     }
 
     return (
@@ -56,7 +56,7 @@ export default function Pet() {
                         <h1 className="text-2xl font-bold tracking-tight text-gray-900">
                             {pet.name}
                         </h1>
-                        
+
                         <PetSection petData={testpet} />
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 hidden">
