@@ -11,7 +11,7 @@ function PetInfo({ name, race, age, gender, overview, sterilized }) {
             <p className="font-medium text-lg mb-4">Genero: {gender}</p>
             <p className="font-medium text-lg mb-4">Descricion: {overview}</p>
             <p className="font-medium text-lg mb-4">
-                {sterilized && <>Estoy esterilizad@</>}
+                {sterilized ? <>Estoy esterilizad@</> : <>No Esterilizad@</>}
             </p>
             <div className="text-xl text-palette-primary font-medium py-4 px-1"></div>
 

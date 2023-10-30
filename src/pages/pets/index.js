@@ -4,9 +4,23 @@ import { getPets } from '@/hooks/pets'
 import { useEffect, useState } from 'react'
 import GuestLayout from '@/components/Layouts/GuestLayout'
 import PetsDrawer from './PetsDrawer'
+import { useAuth } from '@/hooks/auth'
 
 const Pets = () => {
     const [pets, setPets] = useState([])
+    const [userData, setUserData] = useState([])
+    const [editPet, setEditPet] = useState({
+        name: '',
+        age: '',
+        race: '',
+        overview: '',
+        gender: '',
+        sterilized: false,
+        image: '',
+        id: '',
+    })
+
+    const { user } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
         async function fetchData() {
@@ -17,6 +31,14 @@ const Pets = () => {
 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        setUserData(user)
+    }, [user])
+
+    const selectedPet = event => {
+        setEditPet(event)
+    }
 
     return (
         <GuestLayout
@@ -32,14 +54,26 @@ const Pets = () => {
             <div>
                 <div className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-                        <PetsDrawer />
+                        {user && <PetsDrawer edit={editPet} />}
                         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                             Las mejores mascotas para adoptar
                         </h2>
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                             {pets.map((pet, index) => {
-                                return <PetCard key={index} pet={pet} />
+                                if (
+                                    userData?.role == 'admin' ||
+                                    userData?.role == 'staff' ||
+                                    userData?.id == pet.user_id
+                                )
+                                    pet.edit = true
+                                return (
+                                    <PetCard
+                                        key={index}
+                                        pet={pet}
+                                        selectEdit={selectedPet}
+                                    />
+                                )
                             })}
                         </div>
                     </div>

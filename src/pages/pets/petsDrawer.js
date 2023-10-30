@@ -2,11 +2,11 @@ import Button from '@/components/Button'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
-import { useState } from 'react'
 import { registerPet } from '@/hooks/pets'
 import ModalDrawer from '@/components/ModalDrawer'
+import { useEffect, useState } from 'react'
 
-const PetsDrawer = ({ children, className, ...props }) => {
+const PetsDrawer = ({ children, className, edit, ...props }) => {
     const [state, setState] = useState({
         name: '',
         age: '',
@@ -34,6 +34,10 @@ const PetsDrawer = ({ children, className, ...props }) => {
         gender: [],
         sterilized: [],
     })
+
+    useEffect(() => {
+        console.log(edit)
+    }, [edit])
 
     const handleInputChange = event => {
         const name = event.target.name
