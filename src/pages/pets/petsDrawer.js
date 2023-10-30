@@ -36,7 +36,10 @@ const PetsDrawer = ({ children, className, edit, ...props }) => {
     })
 
     useEffect(() => {
-        console.log(edit)
+        const data = { ...state, ...edit }
+
+        setState(data)
+        console.log(data)
     }, [edit])
 
     const handleInputChange = event => {
@@ -143,7 +146,8 @@ const PetsDrawer = ({ children, className, edit, ...props }) => {
         <ModalDrawer
             title={drawerData.title}
             id={drawerData.id}
-            done={state.success}>
+            done={state.success}
+            pet={state}>
             <form onSubmit={submitForm}>
                 <div className="group relative mb-4">
                     <Label htmlFor="name">Nombre</Label>

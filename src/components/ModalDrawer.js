@@ -22,6 +22,10 @@ const ModalDrawer = ({ children, className, ...props }) => {
         }
     }, [props.done])
 
+    useEffect(() => {
+        if (props.pet?.id) drawer.toggle()
+    }, [props.pet])
+
     const toggleDrawer = event => {
         drawer.toggle()
     }

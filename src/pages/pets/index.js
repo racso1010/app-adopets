@@ -9,16 +9,7 @@ import { useAuth } from '@/hooks/auth'
 const Pets = () => {
     const [pets, setPets] = useState([])
     const [userData, setUserData] = useState([])
-    const [editPet, setEditPet] = useState({
-        name: '',
-        age: '',
-        race: '',
-        overview: '',
-        gender: '',
-        sterilized: false,
-        image: '',
-        id: '',
-    })
+    const [editPet, setEditPet] = useState(null)
 
     const { user } = useAuth({ middleware: 'guest' })
 

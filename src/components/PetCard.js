@@ -14,7 +14,7 @@ const PetCard = ({ pet, selectEdit }) => {
         <div className="group relative pet-card flex rounded-lg h-full bg-blue bg-opacity-20 flex-col">
             {pet.edit && (
                 <button
-                    className="w-6 h-6 pl-1 bg-green rounded-md shadow-lg shadow-indigo-500/40 text-white absolute w-10 top-0.5 right-0.5 z-[20]"
+                    className="w-6 h-6 pl-1 bg-green rounded-md text-white absolute top-0.5 right-0.5 z-[20]"
                     onClick={forceSetEditPet}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
