@@ -14,7 +14,6 @@ export default function Pet() {
     useEffect(() => {
         async function fetchData() {
             const singlePet = await getPets(router.query.id)
-
             setPet(singlePet)
         }
 
