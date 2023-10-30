@@ -12,7 +12,6 @@ const Pets = () => {
     const [pets, setPets] = useState([])
     const [userData, setUserData] = useState([])
     const [editPet, setEditPet] = useState(null)
-
     const [filteredPets, setFilteredPets] = useState([])
     const [filters, setFilters] = useState({
         search: '',
@@ -111,7 +110,7 @@ const Pets = () => {
         }
         setAdvancedFilters(!advancedFilters)
     }
-
+    
     return (
         <GuestLayout
             header={
@@ -126,7 +125,7 @@ const Pets = () => {
             <div>
                 <div className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-                        <PetsDrawer />
+                        {user && <PetsDrawer edit={editPet} />}
                         <div className="flex justify-between">
                             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                                 Las mejores mascotas para adoptar
