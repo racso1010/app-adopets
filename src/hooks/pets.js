@@ -28,3 +28,16 @@ export const registerPet = async ({ setErrors, payload }) => {
             console.log(error)
         })
 }
+
+export const deletePets = async (id = null) => {
+    const url = `/api/pets/${id == null ? '' : id}`
+
+    return await axios
+        .get(url)
+        .then(e => {
+            window.location.pathname = '/pets'
+        })
+        .catch(error => {
+            return []
+        })
+}
