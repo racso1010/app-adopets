@@ -2,11 +2,11 @@ import Button from '@/components/Button'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
-import { useState } from 'react'
 import { registerPet } from '@/hooks/pets'
 import ModalDrawer from '@/components/ModalDrawer'
+import { useEffect, useState } from 'react'
 
-const PetsDrawer = ({ children, className, ...props }) => {
+const PetsDrawer = ({ children, className, edit, ...props }) => {
     const [state, setState] = useState({
         name: '',
         age: '',
@@ -22,7 +22,6 @@ const PetsDrawer = ({ children, className, ...props }) => {
             overview: [],
             gender: [],
             sterilized: [],
-            image: [],
         },
         success: false,
     })
@@ -34,12 +33,22 @@ const PetsDrawer = ({ children, className, ...props }) => {
         overview: [],
         gender: [],
         sterilized: [],
-        image: [],
     })
+
+    useEffect(() => {
+        const data = { ...state, ...edit }
+
+        setState(data)
+        console.log(data)
+    }, [edit])
 
     const handleInputChange = event => {
         const name = event.target.name
-        const value = event.target.value
+        let value = event.target.value
+
+        if (event.target?.files && event.target?.files[0]) {
+            value = event.target.files[0]
+        }
         setState({
             ...state,
             [name]: value,
@@ -55,13 +64,11 @@ const PetsDrawer = ({ children, className, ...props }) => {
             overview: [],
             gender: [],
             sterilized: [],
-            image: [],
         }
 
         valid =
             state.name.length > 0 &&
             state.age.length > 0 &&
-            state.image.length > 0 &&
             state.race.length > 0 &&
             state.gender.length > 0 &&
             state.overview.length > 0
@@ -81,9 +88,7 @@ const PetsDrawer = ({ children, className, ...props }) => {
         if (state.overview.length === 0) {
             lErrors.overview.push('Campo requerido')
         }
-        if (state.image.length === 0) {
-            lErrors.image.push('Campo requerido')
-        }
+
         setErrors(lErrors)
         return valid
     }
@@ -93,8 +98,18 @@ const PetsDrawer = ({ children, className, ...props }) => {
         event.preventDefault()
 
         if (validForm) {
+            const payload = new FormData()
+
+            Object.keys(state).forEach(key => {
+                if (key == 'image') {
+                    payload.append('image', new Blob([state.image]))
+                } else {
+                    payload.append(`${key}`, state[key])
+                }
+            })
+
             const register = await registerPet({
-                ...state,
+                payload,
                 setErrors,
             })
 
@@ -114,10 +129,10 @@ const PetsDrawer = ({ children, className, ...props }) => {
                         overview: [],
                         gender: [],
                         sterilized: [],
-                        image: [],
                     },
                     success: true,
                 })
+                location.reload()
             }
         }
     }
@@ -131,7 +146,8 @@ const PetsDrawer = ({ children, className, ...props }) => {
         <ModalDrawer
             title={drawerData.title}
             id={drawerData.id}
-            done={state.success}>
+            done={state.success}
+            pet={state}>
             <form onSubmit={submitForm}>
                 <div className="group relative mb-4">
                     <Label htmlFor="name">Nombre</Label>
@@ -222,7 +238,6 @@ const PetsDrawer = ({ children, className, ...props }) => {
                             id="image"
                             name="image"
                             type="file"
-                            value={state.image}
                             className="block mt-1 w-full"
                             onChange={handleInputChange}
                         />
